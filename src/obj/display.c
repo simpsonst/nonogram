@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonogram - Terminal-based Nonogram solver
  *  Copyright (C) 2001,2005-7,2012  Steven Simpson
@@ -45,11 +47,11 @@ const struct nonogram_client our_client = {
 };
 
 int printgrid(const nonogram_cell *grid, size_t width, size_t height,
-	      FILE *fp, const char *solid, const char *dot,
-	      const char *blank);
+              FILE *fp, const char *solid, const char *dot,
+              const char *blank);
 int printhtmlgrid(const nonogram_cell *grid, size_t width, size_t height,
-		  FILE *fp, const char *solid, const char *dot,
-		  const char *blank, int table);
+                  FILE *fp, const char *solid, const char *dot,
+                  const char *blank, int table);
 
 void clear_screen(void)
 {
@@ -228,12 +230,12 @@ void draw_grid(int w, int h)
   _kernel_oswrch(5);
   for (line = 0; line <= h; line += 5) {
     plot(4,
-	 (BBCGFX_XOFFSET), (BBCGFX_YOFFSET) + line * (BBCGFX_YSCALE) - YSGN);
+         (BBCGFX_XOFFSET), (BBCGFX_YOFFSET) + line * (BBCGFX_YSCALE) - YSGN);
     plot(97, (BBCGFX_XSCALE) * w - XSGN, ((1 - BBCGFX_YMARGIN)) * YSGN);
   }
   for (line = 0; line <= w; line += 5) {
     plot(4,
-	 (BBCGFX_XOFFSET) + line * (BBCGFX_XSCALE) - XSGN, (BBCGFX_YOFFSET));
+         (BBCGFX_XOFFSET) + line * (BBCGFX_XSCALE) - XSGN, (BBCGFX_YOFFSET));
     plot(97, ((1 - BBCGFX_XMARGIN)) * XSGN, (BBCGFX_YSCALE) * h - YSGN);
   }
 }
@@ -277,13 +279,13 @@ void print_it(void *vh)
 
   if (h->c->html) {
     printhtmlgrid(h->grid, h->puzzle.width, h->puzzle.height, fp,
-		  h->c->html_solid, h->c->html_dot, h->c->html_blank,
-		  h->c->table);
+                  h->c->html_solid, h->c->html_dot, h->c->html_blank,
+                  h->c->table);
     fprintf(fp, "<TR><TD COLSPAN=%zu><HR></TD></TR>\n",
-	    h->c->table ? h->puzzle.width : 1);
+            h->c->table ? h->puzzle.width : 1);
   } else {
     printgrid(h->grid, h->puzzle.width, h->puzzle.height, fp,
-	      h->c->solid, h->c->dot, h->c->blank);
+              h->c->solid, h->c->dot, h->c->blank);
     if (h->c->ofiletype != MULTIPLE)
       fprintf(fp, "\n");
   }
@@ -296,8 +298,8 @@ void print_it(void *vh)
 }
 
 int printgrid(const nonogram_cell *grid, size_t width, size_t height,
-	      FILE *fp, const char *solid, const char *dot,
-	      const char *blank)
+              FILE *fp, const char *solid, const char *dot,
+              const char *blank)
 {
   size_t row, col, count = 0;
 
@@ -306,7 +308,7 @@ int printgrid(const nonogram_cell *grid, size_t width, size_t height,
       int c = grid[col + row * width];
 
       count += fprintf(fp, "%s", c == nonogram_SOLID ? solid :
-		       c == nonogram_DOT ? dot : blank);
+                       c == nonogram_DOT ? dot : blank);
     }
     putc('\n', fp);
     count++;
@@ -315,8 +317,8 @@ int printgrid(const nonogram_cell *grid, size_t width, size_t height,
 }
 
 int printhtmlgrid(const nonogram_cell *grid, size_t width, size_t height,
-		  FILE *fp, const char *solid, const char *dot,
-		  const char *blank, int table)
+                  FILE *fp, const char *solid, const char *dot,
+                  const char *blank, int table)
 {
   int count = 0;
   size_t row;

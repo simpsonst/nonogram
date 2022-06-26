@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonogram - Terminal-based Nonogram solver
  *  Copyright (C) 2001,2005-7,2012  Steven Simpson

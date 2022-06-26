@@ -1,3 +1,5 @@
+// -*- c-basic-offset: 2; indent-tabs-mode: nil -*-
+
 /*
  *  Nonogram - Terminal-based Nonogram solver
  *  Copyright (C) 2001,2005-7,2012  Steven Simpson
@@ -40,7 +42,7 @@ const char *PTRCONST default_solid = "#";
 const char *PTRCONST default_blank = " ";
 
 nonogram_cell *loadgrid(size_t *width, size_t *height,
-			  FILE *fp, char solid, char dot);
+                        FILE *fp, char solid, char dot);
 
 int create(context *c, const char *progname)
 {
@@ -136,7 +138,7 @@ int verify(context *c, const char *progname)
   diff = nonogram_verifypuzzle(&puzzle);
   if (c->verbose && diff)
     fprintf(stderr, "%s-heaviness: %d\n",
-	    diff > 0 ? "Row" : "Column", diff > 0 ? diff : -diff);
+            diff > 0 ? "Row" : "Column", diff > 0 ? diff : -diff);
   printf("%d\n", diff);
 
   nonogram_freepuzzle(&puzzle);
@@ -242,9 +244,9 @@ int extractnote(context *c, const char *progname, const char *name)
     case SINGLE:
       fout = fopen(c->ofile, "w");
       if (!fout) {
-	fprintf(stderr, "%s: can't write file\n", c->ofile);
-	nonogram_freepuzzle(&puzzle);
-	return -1;
+        fprintf(stderr, "%s: can't write file\n", c->ofile);
+        nonogram_freepuzzle(&puzzle);
+        return -1;
       }
       break;
     case STDSTREAM:
@@ -252,7 +254,7 @@ int extractnote(context *c, const char *progname, const char *name)
       break;
     case MULTIPLE:
       fprintf(stderr, "%s: inappropriate output (use -o, -os or +o)\n",
-	      progname);
+              progname);
       nonogram_freepuzzle(&puzzle);
       return -1;
     default:
@@ -300,9 +302,9 @@ int deletenote(context *c, const char *progname, const char *name)
     case SINGLE:
       fout = fopen(c->ofile, "w");
       if (!fout) {
-	fprintf(stderr, "%s: can't write file\n", c->ofile);
-	nonogram_freepuzzle(&puzzle);
-	return -1;
+        fprintf(stderr, "%s: can't write file\n", c->ofile);
+        nonogram_freepuzzle(&puzzle);
+        return -1;
       }
       break;
     case STDSTREAM:
@@ -310,7 +312,7 @@ int deletenote(context *c, const char *progname, const char *name)
       break;
     case MULTIPLE:
       fprintf(stderr, "%s: inappropriate output (use -o, -os or +o)\n",
-	      progname);
+              progname);
       nonogram_freepuzzle(&puzzle);
       return -1;
     default:
@@ -328,7 +330,7 @@ int deletenote(context *c, const char *progname, const char *name)
 }
 
 int replacenote(context *c, const char *progname,
-		const char *name, const char *value, int safe)
+                const char *name, const char *value, int safe)
 {
   FILE *fin, *fout;
   nonogram_puzzle puzzle;
@@ -357,7 +359,7 @@ int replacenote(context *c, const char *progname,
     t = c->verbose ? -1 : 0;
     if (t < 0)
       fprintf(stderr, "%s: `%s' already set\n",
-	      c->ifile ? c->ifile : "(stdin)" , name);
+              c->ifile ? c->ifile : "(stdin)" , name);
   } else {
     t = nonogram_setnote(&puzzle, name, value);
   }
@@ -367,9 +369,9 @@ int replacenote(context *c, const char *progname,
     case SINGLE:
       fout = fopen(c->ofile, "w");
       if (!fout) {
-	fprintf(stderr, "%s: can't write file\n", c->ofile);
-	nonogram_freepuzzle(&puzzle);
-	return -1;
+        fprintf(stderr, "%s: can't write file\n", c->ofile);
+        nonogram_freepuzzle(&puzzle);
+        return -1;
       }
       break;
     case STDSTREAM:
@@ -377,7 +379,7 @@ int replacenote(context *c, const char *progname,
       break;
     case MULTIPLE:
       fprintf(stderr, "%s: inappropriate output (use -o, -os or +o)\n",
-	      progname);
+              progname);
       nonogram_freepuzzle(&puzzle);
       return -1;
     default:
@@ -422,7 +424,7 @@ int judge(context *c, const char *progname)
   rating = nonogram_judgepuzzle(&puzzle);
   if (c->verbose)
     fprintf(stderr, "Puzzle difficulty: %.0f (%s)\n", rating,
-	    c->ifile ? c->ifile : "stdin");
+            c->ifile ? c->ifile : "stdin");
   printf("%.0f\n", rating);
 
   nonogram_freepuzzle(&puzzle);
@@ -524,7 +526,7 @@ int solve(context *c, const char *progname)
   diff = nonogram_verifypuzzle(&handle.puzzle);
   if (diff && c->verbose)
     fprintf(stderr, "Warning: puzzle (%s) has imbalance: %d\n",
-	    c->ifile ? c->ifile : "stdin", diff);
+            c->ifile ? c->ifile : "stdin", diff);
 
   handle.fp = NULL;
   if (c->ofiletype == SINGLE) {
@@ -540,9 +542,9 @@ int solve(context *c, const char *progname)
 
   if (!diff || c->visual) {
     handle.grid = nonogram_makegrid(nonogram_puzzlewidth(&handle.puzzle),
-				    nonogram_puzzleheight(&handle.puzzle));
+                                    nonogram_puzzleheight(&handle.puzzle));
     nonogram_cleargrid(handle.grid, nonogram_puzzlewidth(&handle.puzzle),
-		       nonogram_puzzleheight(&handle.puzzle));
+                       nonogram_puzzleheight(&handle.puzzle));
   }
 
 #ifndef NOVISUAL
@@ -569,8 +571,8 @@ int solve(context *c, const char *progname)
 
   /* now load the puzzle after configuration */
   nonogram_load(&handle.solver, &handle.puzzle, handle.grid,
-		nonogram_puzzlewidth(&handle.puzzle) *
-		nonogram_puzzleheight(&handle.puzzle));
+                nonogram_puzzlewidth(&handle.puzzle) *
+                nonogram_puzzleheight(&handle.puzzle));
 
 #ifndef NOVISUAL
   if (c->visual) {
@@ -584,8 +586,8 @@ int solve(context *c, const char *progname)
   if (!diff || c->visual) {
     handle.stop = false;
     while (!handle.stop &&
-	   nonogram_runsolver_n(&handle.solver,
-				(tries = 1, &tries)) != nonogram_FINISHED)
+           nonogram_runsolver_n(&handle.solver,
+                                (tries = 1, &tries)) != nonogram_FINISHED)
       ;
   }
 
@@ -632,17 +634,17 @@ int print_usage(FILE *fp, const char *progname)
   count += fprintf(fp, "\t[+html] [-dot str] [-solid str]"
                    " [-blank str] [+dot/solid/blank]\n"
                    "\t[-i input] [-is] [-s num] [+s] [-h] [-L] [-O]\n"
-		   "\t[-/+CO] [-/+CE] [-/+q]\n"
-		   "\t[-penc]\n"
-		   "\t[-Affcomp] [-Afcomp] [-Afast] [-Anull] [-Acomplete]"
-		   " [-Ahybrid]\n"
-		   "\t[-Aolsak] [-Afastolsak]\n"
-		   "\t[-Afastodd] [-Afastolsakcomplete] [-Afastoddcomplete]\n"
-		   "\t[-title string]\n");
+                   "\t[-/+CO] [-/+CE] [-/+q]\n"
+                   "\t[-penc]\n"
+                   "\t[-Affcomp] [-Afcomp] [-Afast] [-Anull] [-Acomplete]"
+                   " [-Ahybrid]\n"
+                   "\t[-Aolsak] [-Afastolsak]\n"
+                   "\t[-Afastodd] [-Afastolsakcomplete] [-Afastoddcomplete]\n"
+                   "\t[-title string]\n");
 #ifndef OLDSWITCHES
   count += fprintf(fp, "\t[-p] [-x] [-c] [-g] [-j] [-T] [-W] [-H]\n");
   count += fprintf(fp, "\t[-Xname] [-Rname value] [-Dname]"
-		   " [-Sname value]\n");
+                   " [-Sname value]\n");
 #endif
   return count;
 }
@@ -655,10 +657,10 @@ int print_options(FILE *fp, const char *pname)
   count += fprintf(fp, "Program version: %s\n", VERSION);
   count += fprintf(fp, "Date compiled: %s\n", __DATE__);
   count += fprintf(fp, "Nonogram library version: %d.%d.%d\n",
-		   nonogram_VERSION, nonogram_MINOR,
-		   nonogram_PATCHLEVEL);
+                   nonogram_VERSION, nonogram_MINOR,
+                   nonogram_PATCHLEVEL);
   count += fprintf(fp, "Nonogram library date compiled: %s\n",
-		   nonogram_date);
+                   nonogram_date);
 
 #if defined(OLDSWITCHES)
   count += fprintf(fp, "OLDSWITCHES: use -i/is switches for -x\n");
@@ -732,7 +734,7 @@ int print_context(context *p, FILE *fp)
   count += fprintf(fp, "HTML:\t%sabled\n", p->html ? "en" : "dis");
   count += fprintf(fp, "Table:\t%sabled\n", p->table ? "en" : "dis");
   count += fprintf(fp, "Informational:\t%s\n",
-		   p->verbose ? "verbose" : "silent");
+                   p->verbose ? "verbose" : "silent");
   count += fprintf(fp, "Solution limit:\t");
   if (p->limit)
     count += fprintf(fp, "%d\n", p->limit);
@@ -800,8 +802,8 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
 #endif
         c->visual = true;
 #ifdef NOVISUAL
-	if (c->verbose)
-	  fprintf(stderr, "%s: warning: -v disabled\n", pname);
+        if (c->verbose)
+          fprintf(stderr, "%s: warning: -v disabled\n", pname);
 #endif
         arg++;
       } else if (!strcmp(argv[arg] + 1, "os")) {
@@ -892,9 +894,9 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
         c->countonerr = true;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "Gdot") ||
-		 !strcmp(argv[arg] + 1, "Gsolid")) {
-	if (c->verbose)
-	  fprintf(stderr, "warning: %s ignored\n", argv[arg]);
+                 !strcmp(argv[arg] + 1, "Gsolid")) {
+        if (c->verbose)
+          fprintf(stderr, "warning: %s ignored\n", argv[arg]);
         arg++;
       } else if (!strcmp(argv[arg] + 1, "is")) {
 #ifndef NOAUTOEXEC
@@ -903,7 +905,7 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
         c->ifile = NULL;
 #ifdef OLDSWITCHES
         if (solve(c, pname))
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
 #endif
         arg++;
       } else if (!strcmp(argv[arg] + 1, "title")) {
@@ -924,7 +926,7 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
           arg = argc;
         } else {
           c->logfile = argv[arg + 1];
-	  c->logappend = true;
+          c->logappend = true;
           arg += 2;
         }
       } else if (!strcmp(argv[arg] + 1, "nlog")) {
@@ -935,14 +937,14 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
           arg = argc;
         } else {
           c->logfile = argv[arg + 1];
-	  c->logappend = false;
+          c->logappend = false;
           arg += 2;
         }
       } else if (!strcmp(argv[arg] + 1, "ll")) {
-	unsigned nlev;
-	char *rem;
+        unsigned nlev;
+        char *rem;
         if (arg + 1 >= argc ||
-	    (nlev = strtoul(argv[arg + 1], &rem, 10), *rem)) {
+            (nlev = strtoul(argv[arg + 1], &rem, 10), *rem)) {
           c->error = true;
           fprintf(stderr, "%s: switch %s needs whole number argument\n",
                   pname, argv[arg]);
@@ -959,8 +961,8 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
           arg = argc;
         } else {
           c->limit = atoi(argv[arg + 1]);
-	  if (!c->limit && c->verbose)
-	    fprintf(stderr, "%s: warning - limit disabled\n", pname);
+          if (!c->limit && c->verbose)
+            fprintf(stderr, "%s: warning - limit disabled\n", pname);
           arg += 2;
         }
       } else if (!strcmp(argv[arg] + 1, "i")) {
@@ -976,7 +978,7 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
           c->ifile = argv[arg + 1];
 #ifdef OLDSWITCHES
           if (solve(c, pname) < 0)
-	    return EXIT_FAILURE;
+            return EXIT_FAILURE;
 #endif
           arg += 2;
         }
@@ -986,100 +988,100 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
         c->executed = true;
 #endif
         if (solve(c, pname) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "penc")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (encodepuzzle(c, pname) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "T")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (extractpart(c, pname, TITLE) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (argv[arg][1] == 'X') {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (extractnote(c, pname, argv[arg] + 2) < 0)
-	  if (arg + 1 == argc)
-	    return EXIT_FAILURE;
+          if (arg + 1 == argc)
+            return EXIT_FAILURE;
         arg++;
       } else if (argv[arg][1] == 'D') {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (deletenote(c, pname, argv[arg] + 2) < 0)
-	  if (arg + 1 == argc)
-	    return EXIT_FAILURE;
+          if (arg + 1 == argc)
+            return EXIT_FAILURE;
         arg++;
       } else if (argv[arg][1] == 'R') {
-	if (arg + 1 == argc) {
-	  if (c->verbose)
-	    fprintf(stderr, "usage: %s -Rname value\n", pname);
-	  return EXIT_FAILURE;
-	} else {
+        if (arg + 1 == argc) {
+          if (c->verbose)
+            fprintf(stderr, "usage: %s -Rname value\n", pname);
+          return EXIT_FAILURE;
+        } else {
 #ifndef NOAUTOEXEC
-	  c->executed = true;
+          c->executed = true;
 #endif
-	  if (replacenote(c, pname, argv[arg] + 2, argv[arg + 1], false) < 0)
-	    if (arg + 2 == argc)
-	      return EXIT_FAILURE;
-	  arg += 2;
-	}
+          if (replacenote(c, pname, argv[arg] + 2, argv[arg + 1], false) < 0)
+            if (arg + 2 == argc)
+              return EXIT_FAILURE;
+          arg += 2;
+        }
       } else if (argv[arg][1] == 'S') {
-	if (arg + 1 == argc) {
-	  if (c->verbose)
-	    fprintf(stderr, "usage: %s -Sname value\n", pname);
-	  return EXIT_FAILURE;
-	} else {
+        if (arg + 1 == argc) {
+          if (c->verbose)
+            fprintf(stderr, "usage: %s -Sname value\n", pname);
+          return EXIT_FAILURE;
+        } else {
 #ifndef NOAUTOEXEC
-	  c->executed = true;
+          c->executed = true;
 #endif
-	  if (replacenote(c, pname, argv[arg] + 2, argv[arg + 1], true) < 0)
-	    if (arg + 2 == argc)
-	      return EXIT_FAILURE;
-	  arg += 2;
-	}
+          if (replacenote(c, pname, argv[arg] + 2, argv[arg + 1], true) < 0)
+            if (arg + 2 == argc)
+              return EXIT_FAILURE;
+          arg += 2;
+        }
       } else if (!strcmp(argv[arg] + 1, "W")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (extractpart(c, pname, WIDTH) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "H")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (extractpart(c, pname, HEIGHT) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "g")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (create(c, pname) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "c")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (verify(c, pname) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "j")) {
 #ifndef NOAUTOEXEC
         c->executed = true;
 #endif
         if (judge(c, pname) < 0)
-	  return EXIT_FAILURE;
+          return EXIT_FAILURE;
         arg++;
       } else if (!strcmp(argv[arg] + 1, "p")) {
 #ifndef NOAUTOEXEC
@@ -1274,7 +1276,7 @@ int parse_args(context *c, int argc, const char *argv[], const char *pname)
 }
 
 nonogram_cell *loadgrid(size_t *width, size_t *height,
-			  FILE *fp, char solid, char dot)
+                          FILE *fp, char solid, char dot)
 {
   struct line {
     struct line *prev;
